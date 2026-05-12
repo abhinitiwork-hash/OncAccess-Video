@@ -1,1031 +1,355 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/><title>OncAccess — Demo Reel</title>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<meta charset="utf-8"/><title>OncAccess — Executive Strategy</title>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.2/dist/TextPlugin.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0b;font-family:"Manrope",sans-serif;color:#e6edf5}
-:root{--bg:#f8fafc;--blk:#0a0a0b;--ink:#0f172a;--soft:#475569;--mut:#94a3b8;--ln:#e2e8f0;--ls:#f1f5f9;--teal:#0d9488;--td:#0f766e;--ts:#ccfbf1;--coral:#f87171;--cs:#fecaca;--grn:#10b981;--gs:#d1fae5;--amb:#f59e0b;--as:#fef3c7;--ins:#93c5fd;--hl:#facc15;--fd:"Manrope",sans-serif;--fm:"JetBrains Mono",monospace}
-#sw{position:fixed;inset:0;overflow:hidden}
-#stage{width:1920px;height:1080px;position:absolute;top:0;left:0;transform-origin:top left;overflow:hidden}
-.scene{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden}
-.sc{width:100%;height:100%;position:relative;z-index:1}
-.blk{background:var(--blk);color:#f5f5f7}.app{background:var(--bg);color:var(--ink)}
-.grain{position:absolute;inset:0;pointer-events:none;z-index:50;opacity:.1;background-image:radial-gradient(rgba(255,255,255,.08) 1px,transparent 1.2px),radial-gradient(rgba(0,0,0,.18) 1px,transparent 1.2px);background-size:3px 3px,5px 5px;background-position:0 0,1px 2px;mix-blend-mode:overlay}
-/* black scenes */
-.sb{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;padding:100px 200px;text-align:center}
-.bl{font-family:var(--fd);font-weight:300;font-size:92px;letter-spacing:-.025em;line-height:1.05;color:#e2e8f0;opacity:0}
-.bl .em{font-weight:700;color:#fff}.bl .tl{color:var(--teal);font-weight:700}
-.bk{font-family:var(--fm);text-transform:uppercase;letter-spacing:.4em;font-size:20px;color:var(--teal);opacity:0}
-@keyframes caret{50%{opacity:0}}
-@keyframes blink{0%,100%{border-color:var(--hl)}50%{border-color:transparent}}
-/* topbar */
-.topbar{position:absolute;top:0;left:0;right:0;height:64px;background:#fff;border-bottom:1px solid var(--ln);display:flex;align-items:center;padding:0 36px;z-index:5;gap:0}
-.home{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--soft)}
-.ctitle{margin-left:24px;font-weight:800;font-size:22px;letter-spacing:.04em;color:var(--ink)}
-.csub{margin-left:18px;font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.2em}
-.tbr{margin-left:auto;display:flex;align-items:center;gap:14px}
-.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;border:1px solid var(--ln);background:#fff;font-size:13px;color:var(--soft);font-weight:500;position:relative}
-.pill.solid{background:var(--teal);color:#fff;border-color:var(--teal)}
-.plbl{font-size:10px;letter-spacing:.2em;color:var(--mut);text-transform:uppercase;padding-right:4px;border-right:1px solid var(--ln);margin-right:4px}
-.pill.solid .plbl{color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.3)}
-.avatar{width:32px;height:32px;border-radius:50%;background:var(--ts);color:var(--td);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
-/* ring highlight */
-.ring{position:absolute;border-radius:14px;border:3px solid var(--hl);box-shadow:0 0 0 6px rgba(250,204,21,.25),0 0 24px rgba(250,204,21,.5);pointer-events:none;z-index:30;opacity:0}
-/* caption */
-.cap{position:absolute;left:0;right:0;bottom:64px;display:flex;justify-content:center;z-index:40;pointer-events:none;opacity:0}
-.capi{background:rgba(10,10,11,.92);color:#fff;padding:18px 36px;border-radius:14px;font-weight:600;font-size:36px;letter-spacing:-.01em;line-height:1.2;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.4);max-width:1500px}
-.capi .ac{color:var(--teal)}.capi .sm{display:block;font-size:22px;font-weight:400;margin-top:6px;color:#cbd5e1}
-/* S3 landing */
-.land{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding-top:64px}
-.lcard{width:880px;text-align:center;margin-top:-120px}
-.lh1{font-family:var(--fd);font-weight:800;font-size:96px;letter-spacing:-.03em;color:var(--ink)}
-.lsub{margin-top:12px;font-size:22px;color:var(--soft);font-weight:400}
-.swrp{margin-top:40px;position:relative}
-.sinp{width:100%;height:64px;border-radius:12px;border:2px solid var(--teal);background:#fff;display:flex;align-items:center;padding:0 24px;font-size:20px;color:var(--ink);box-shadow:0 0 0 4px rgba(13,148,136,.12)}
-.sic{color:var(--mut);margin-right:14px;flex-shrink:0}
-#s3t{font-weight:500}
-.caret{display:inline-block;width:2px;height:24px;background:var(--teal);margin-left:2px;vertical-align:middle;animation:caret .9s steps(2) infinite}
-.suggest{margin-top:8px;background:#fff;border:1px solid var(--ln);border-radius:12px;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 32px rgba(15,23,42,.06);opacity:0;transform:translateY(-6px)}
-.sn{font-weight:700;font-size:18px;color:var(--ink)}.ss{font-size:13px;color:var(--mut);margin-top:2px}
-.stag{font-family:var(--fm);font-size:11px;background:var(--as);color:#92400e;padding:4px 10px;border-radius:6px}
-.lft{margin-top:24px;font-size:13px;color:var(--mut);font-family:var(--fm)}
-/* S4 modal */
-.scrim{position:absolute;inset:0;background:rgba(15,23,42,.55);z-index:4}
-.modal{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:720px;background:#fff;border-radius:16px;box-shadow:0 40px 80px rgba(0,0,0,.4);z-index:6;overflow:hidden}
-.mhd{padding:24px 28px 16px;border-bottom:1px solid var(--ls)}
-.meye{font-family:var(--fm);font-size:12px;letter-spacing:.25em;color:var(--teal);font-weight:700;display:flex;align-items:center;gap:8px}
-.mttl{font-size:16px;color:var(--soft);margin-top:8px}.mttl b{color:var(--teal);font-weight:700}
-.mbd{padding:16px 28px 28px}
-.msrch{height:44px;border:1.5px solid var(--teal);border-radius:8px;background:#f0fdfa;display:flex;align-items:center;padding:0 14px;font-size:14px;color:var(--mut);margin-bottom:14px}
-.ilist{display:flex;flex-direction:column;gap:8px;max-height:360px;overflow:hidden}
-.iitem{padding:14px 18px;border:1px solid var(--ln);border-radius:8px;font-weight:600;font-size:15px;color:var(--ink)}
-.iitem.sel{border-color:var(--teal);border-width:2px;background:#f0fdfa}
-/* Dashboard S5-S6 */
-.dash{position:absolute;inset:64px 0 0 0;display:grid;grid-template-columns:390px 1fr 400px;gap:12px;padding:10px 16px}
-.panel{background:#fff;border:1px solid var(--ln);border-radius:12px;padding:16px;position:relative}
-.ptitle{font-family:var(--fm);text-transform:uppercase;letter-spacing:.2em;font-size:11px;color:var(--mut);margin-bottom:10px}
-.aname{font-size:36px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}.aind{color:var(--soft);font-size:14px;margin-top:2px}
-.badge{display:inline-block;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.05em;font-family:var(--fm)}
-.badge.green{background:var(--grn);color:#fff}.badge.teal{background:var(--ts);color:var(--td)}.badge.amber{background:transparent;color:var(--amb);border:1px solid var(--amb)}
-.row{display:flex;gap:8px;align-items:center}.sm{font-size:11px;color:var(--mut)}.smer{font-size:10px;color:var(--mut);font-family:var(--fm)}
-.div{height:1px;background:var(--ls);margin:12px 0}
-.cbl{background:#f8fafc;border:1px solid var(--ln);border-radius:10px;padding:14px}
-.scene#s5 .cbl:first-child{background:#fff7ed;border-color:#fdba74;box-shadow:inset 0 0 0 1px rgba(251,146,60,.18)}
-.scene#s5 .cbl:last-child{background:#f0fdfa;border-color:var(--ts)}
-.scene#s5 #s5chart{box-shadow:0 16px 34px rgba(15,23,42,.08);border-color:#cbd5e1}
-.clb{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--soft)}
-.cam{font-size:36px;font-weight:700;font-family:var(--fm)}.cam.green{color:var(--grn)}.cam.teal{color:var(--teal)}
-.csf{font-size:13px;color:var(--soft);font-family:var(--fm)}
-.cc{background:#fff;border:1px solid var(--ln);border-radius:12px;padding:18px;position:relative}
-.chd{display:flex;align-items:center;justify-content:space-between}
-.cttl{font-family:var(--fm);text-transform:uppercase;font-size:11px;letter-spacing:.2em;color:var(--mut)}
-.brow{height:320px;display:grid;grid-template-columns:repeat(12,1fr);gap:6px;align-items:end;margin-top:10px;position:relative;padding-bottom:22px}
-.bcol{position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end}
-.bcol .blbl{position:absolute;bottom:-20px;left:0;right:0;font-family:var(--fm);font-size:10px;color:var(--mut);text-align:center}
-.bstk{width:100%;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
-.seg{width:100%}.seg.c{background:var(--coral)}.seg.g{background:var(--grn)}.seg.b{background:var(--ins)}
-.ymax{position:absolute;top:-4px;left:0;right:0;border-top:1px dashed var(--ln);height:0}
-.legend{display:flex;gap:18px;justify-content:center;font-family:var(--fm);font-size:12px;color:var(--soft);margin-top:26px}
-.sw{display:inline-block;width:12px;height:12px;border-radius:2px;vertical-align:middle;margin-right:6px}
-.sw.c{background:var(--coral)}.sw.g{background:var(--grn)}.sw.b{background:var(--ins)}
-.ir{background:#fff;border:1px solid var(--ln);border-radius:10px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-top:10px}
-.ir.hi{border-color:var(--hl);box-shadow:0 0 0 3px rgba(250,204,21,.18)}
-.ir .ik{font-size:13px;color:var(--soft);display:flex;align-items:center;gap:6px}
-.ir .iv{font-family:var(--fm);font-weight:700;font-size:16px;color:var(--ink)}.ir .iv.c{color:var(--coral)}
-.dc{background:#fff;border:1px solid var(--ln);border-radius:10px;padding:14px 16px;margin-top:10px}
-.dch{font-size:12px;color:var(--td);font-weight:700;display:flex;align-items:center;gap:6px}
-.dcb{font-size:12px;color:var(--soft);margin-top:6px;line-height:1.5}
-/* war room */
-.whd{position:absolute;left:0;right:0;top:64px;background:#fff;border-bottom:1px solid var(--ln);padding:12px 20px 0;z-index:4}
-.wmeta{display:flex;gap:24px;align-items:center;font-size:13px;color:var(--soft)}
-.wmlbl{font-family:var(--fm);text-transform:uppercase;font-size:11px;letter-spacing:.2em;color:var(--mut)}
-.wmeta b{color:var(--ink);font-weight:800}
-.wtabs{display:flex;gap:8px;margin-top:16px}
-.wtab{padding:10px 16px;border-radius:8px 8px 0 0;background:var(--ls);font-size:13px;font-weight:600;color:var(--soft);display:flex;align-items:center;gap:8px}
-.wtab.active{background:#4f46e5;color:#fff}
-.wstage{position:absolute;top:170px;left:16px;right:16px;bottom:8px;background:#fff;border:1px solid var(--ln);border-radius:12px;overflow:hidden}
-.wh2{font-family:var(--fd);font-weight:700;font-size:18px}
-.wsub{text-align:center;color:var(--teal);font-weight:600;font-size:16px;margin:6px 0 18px}
-/* S7 */
-#s7scroll{height:2160px;position:relative}
-.s7top{height:1060px;padding:22px;overflow:hidden;position:relative}
-.s7bot{position:absolute;top:1060px;left:0;right:0;padding:22px}
-.cbars{height:360px;display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:0 60px 30px;align-items:end;position:relative}
-.ccol{width:100%;position:relative}
-.ccol .clbl{position:absolute;bottom:-28px;left:0;right:0;text-align:center;font-size:13px;color:var(--soft)}
-.ccol .segb{background:var(--teal)}.ccol .segae{background:var(--td);opacity:.8}
-.ccol.gray .segb{background:#94a3b8}.ccol.gray .segae{background:#cbd5e1}
-.ctbl{margin-top:50px;width:100%;border-collapse:collapse;font-size:13px}
-.ctbl th,.ctbl td{text-align:right;padding:10px 14px;border-bottom:1px solid var(--ls)}
-.ctbl th:first-child,.ctbl td:first-child{text-align:left}
-.ctbl th{font-weight:600;color:var(--mut);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
-.ctbl .gv{color:var(--grn);font-weight:700;font-family:var(--fm)}.ctbl .rv{color:var(--coral);font-weight:700;font-family:var(--fm)}
-.vbhd{font-family:var(--fm);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--mut);margin-bottom:8px}
-.vbttl{font-size:32px;font-weight:800;letter-spacing:-.02em;color:var(--ink);margin-bottom:20px}
-.vbbars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:20px}
-.vbcard{border-radius:10px;padding:16px;text-align:center}
-.vbcard.teal{background:#f0fdfa;border:1px solid var(--ts)}.vbcard.coral{background:#fef2f2;border:1px solid var(--cs)}.vbcard.green{background:#f0fdf4;border:1px solid var(--gs)}
-.vbcard .vk{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--soft);font-family:var(--fm)}
-.vbcard .vv{font-size:28px;font-weight:700;font-family:var(--fm);margin:4px 0}
-.vbcard.teal .vv{color:var(--teal)}.vbcard.coral .vv{color:var(--coral)}.vbcard.green .vv{color:var(--grn)}
-.vbq{background:var(--ink);color:#fff;border-radius:10px;padding:18px 24px;margin:16px 0;font-size:18px;font-style:italic;font-weight:300}
-.vbq b{color:var(--teal);font-style:normal}
-.vbcards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.vbc{border-radius:10px;padding:16px;border:1px solid var(--ln)}
-.vbc .vbk{font-family:var(--fm);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;margin-bottom:8px}
-.vbc.safety .vbk{color:var(--grn)}.vbc.system .vbk{color:var(--teal)}
-.vbc .vbbody{font-size:13px;color:var(--soft);line-height:1.6}
-/* S8 cliff */
-.ckpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;opacity:0}
-.ckpi{border-radius:10px;padding:14px}
-.ckpi.teal{background:#f0fdfa;border:1px solid var(--ts)}.ckpi.coral{background:#fef2f2;border:1px solid var(--cs)}.ckpi.amber{background:#fffbeb;border:1px solid var(--as)}.ckpi.green{background:#f0fdf4;border:1px solid var(--gs)}
-.ckpi .ck{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--mut);font-family:var(--fm)}
-.ckpi .cv{font-family:var(--fm);font-weight:700;font-size:24px;margin-top:4px}
-.ckpi.teal .cv{color:var(--td)}.ckpi.coral .cv{color:var(--coral)}.ckpi.amber .cv{color:#b45309}.ckpi.green .cv{color:var(--grn)}
-.clchart{position:relative;height:240px;margin:0 0 14px}
-.clbars{height:100%;display:grid;grid-template-columns:repeat(12,1fr);gap:8px;align-items:end}
-.clb{width:100%}.clb.fd{background:var(--teal)}.clb.sp{background:var(--coral)}
-.clline{position:absolute;top:0;left:50%;right:0;bottom:0;border-left:2px dashed var(--coral);opacity:0}
-.clline::after{content:"DROPOUT RISK";position:absolute;left:6px;top:4px;font-family:var(--fm);font-size:10px;color:var(--coral);font-weight:700;letter-spacing:.1em}
-.simtog{display:inline-flex;align-items:center;gap:10px;background:#f0fdfa;border:1px solid var(--ts);padding:10px 18px;border-radius:10px;margin-bottom:14px}
-.strk{width:40px;height:22px;background:var(--ln);border-radius:11px;position:relative;transition:background .4s;flex-shrink:0}
-.strk.on{background:var(--teal)}
-.sthm{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .4s;box-shadow:0 1px 4px rgba(0,0,0,.2)}
-.strk.on .sthm{left:21px}
-.clwarn{background:#fef2f2;border:1px solid var(--cs);border-radius:10px;padding:14px 18px;margin-top:12px;display:flex;align-items:center;gap:12px;font-size:13px;color:#991b1b;font-weight:600;opacity:0}
-.upbox{margin-top:12px;border:2px dashed var(--teal);border-radius:10px;padding:14px;display:flex;align-items:center;gap:12px;color:var(--teal);font-weight:600;font-size:14px;cursor:pointer;opacity:0;animation:blink 1.2s ease-in-out infinite}
-.rfmla{background:var(--ink);border-radius:10px;padding:14px 18px;margin-top:12px;font-family:var(--fm);font-size:13px;color:#e2e8f0;line-height:1.8;opacity:0}
-.dares{box-shadow:0 0 0 0 rgba(16,185,129,.35)}
-/* S9 deal */
-.datop{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:16px}
-.dacard{background:#f8fafc;border:1px solid var(--ln);border-radius:10px;padding:16px}
-.dacard .dk{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--mut);font-family:var(--fm);margin-bottom:12px;font-weight:700}
-.darow{margin-bottom:10px}
-.darow .dl{font-size:11px;color:var(--soft);margin-bottom:4px}
-.dainp{height:40px;border:1.5px solid var(--teal);border-radius:8px;background:#fff;padding:0 14px;font-family:var(--fm);font-size:15px;font-weight:700;color:var(--teal);display:flex;align-items:center}
-.daout{height:40px;border:1.5px solid var(--grn);border-radius:8px;background:#f0fdf4;padding:0 14px;font-family:var(--fm);font-size:15px;font-weight:700;color:var(--grn);display:flex;align-items:center}
-.dabtn{height:48px;background:var(--teal);color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;gap:10px;margin-top:12px;cursor:pointer}
-.dares{background:#f0fdfa;border:1.5px solid var(--teal);border-radius:10px;padding:16px;margin-top:12px;display:flex;align-items:center;justify-content:space-between;opacity:0}
-.dares .rk{font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--teal);font-family:var(--fm)}
-.dares .rv{font-family:var(--fm);font-size:28px;font-weight:700;color:var(--td)}
-.dagap{background:#fef2f2;border:1px solid var(--cs);border-radius:10px;padding:14px 18px;margin-top:10px;font-weight:600;color:#991b1b;font-size:14px;display:flex;align-items:center;gap:10px;opacity:0}
-.dapaths{margin-top:12px;opacity:0}
-.dapath{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8fafc;border:1px solid var(--ln);border-radius:8px;margin-bottom:8px;font-size:13px;color:var(--soft)}
-.dapath .icon{width:28px;height:28px;border-radius:6px;background:var(--ts);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--teal);font-weight:700;font-size:12px}
-/* S10 TPP */
-.tgrid{display:grid;grid-template-columns:1fr 1fr 300px;gap:16px;height:calc(100% - 50px)}
-.tcol{background:#fff;border:1px solid var(--ln);border-radius:10px;padding:18px;overflow:hidden}
-.tcol h3{font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--soft);margin-bottom:4px}
-.tcol .tsub{color:var(--mut);font-size:12px;margin-bottom:14px}
-.trow{margin-bottom:10px}
-.trow .tl{font-size:11px;color:var(--soft);margin-bottom:4px}
-.tinp{height:36px;border:1px solid var(--ln);border-radius:6px;background:#f8fafc;padding:0 12px;font-family:var(--fm);font-size:13px;color:var(--ink);display:flex;align-items:center}
-.tinp.foc{border-color:var(--teal);border-width:2px}.tinp.em{color:var(--mut);font-style:italic;font-size:12px;font-family:var(--fd)}
-.tcost{background:#f0fdfa;border:1px solid var(--ts);border-radius:8px;padding:12px;margin-top:8px}
-.tcost.gray{background:#f8fafc;border-color:var(--ln)}
-.tcost .k{font-size:11px;color:var(--soft)}.tcost .v{font-family:var(--fm);font-weight:700;font-size:20px;margin-top:2px;color:var(--teal)}
-.tcost.gray .v{color:var(--ink)}
-.h2h{width:100%;border-collapse:collapse;font-size:12px}
-.h2h th,.h2h td{padding:9px 10px;border-bottom:1px solid var(--ls);text-align:right}
-.h2h th:first-child,.h2h td:first-child{text-align:left}
-.h2h th{font-family:var(--fm);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
-.h2h .dg{color:var(--grn);font-weight:700;font-family:var(--fm)}.h2h .dr{color:var(--coral);font-weight:700;font-family:var(--fm)}
-.h2h tr.hi td{background:#f0fdfa}
-/* S11 patient bridge */
-.pbch{position:relative;height:360px;background:linear-gradient(to top,transparent 0,transparent calc(100% - 1px),var(--ln) calc(100% - 1px)),repeating-linear-gradient(to right,var(--ls) 0,var(--ls) 1px,transparent 1px,transparent calc(100%/12));padding:8px 24px 28px 54px;overflow:hidden}
-.pby{position:absolute;left:0;top:8px;bottom:28px;width:50px;display:flex;flex-direction:column;justify-content:space-between;font-family:var(--fm);font-size:10px;color:var(--mut);text-align:right;padding-right:6px}
-.pbta{position:absolute;left:54px;right:24px;top:8px;bottom:28px;background:linear-gradient(to bottom,rgba(13,148,136,.65),rgba(13,148,136,.15));border-top:2px solid var(--teal)}
-.pbca{position:absolute;left:54px;right:24px;top:8px;bottom:28px;opacity:.85}
-.pbca svg{width:100%;height:100%}
-.pbax{position:absolute;left:54px;right:24px;bottom:0;height:24px;display:grid;grid-template-columns:repeat(12,1fr);font-family:var(--fm);font-size:10px;color:var(--mut);text-align:center;align-items:center}
-.pbcards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
-.pbcard{background:#fff;border:1px solid var(--ln);border-radius:10px;padding:14px}
-.pbcard.teal{background:#f0fdfa;border-color:var(--ts)}.pbcard.coral{background:#fef2f2;border-color:var(--cs)}
-.pbcard .k{font-family:var(--fm);font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--soft)}
-.pbcard .v{font-family:var(--fm);font-weight:700;font-size:24px;margin-top:4px}
-.pbcard.teal .v{color:var(--td)}.pbcard.coral .v{color:var(--coral)}
-.pbcard .body{font-size:12px;color:var(--soft);margin-top:4px}
-.finadv{background:var(--ink);border-radius:14px;padding:26px 32px;margin-top:16px;display:flex;align-items:center;justify-content:space-between;opacity:0;transform:translateY(30px)}
-.finadv .fk{font-family:var(--fm);font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--mut);margin-bottom:8px}
-.finadv .fv{font-family:var(--fm);font-size:48px;font-weight:700;color:var(--teal);letter-spacing:-.02em}
-.finadv .fb{color:#94a3b8;font-size:14px;margin-top:6px}
-.finbtn{background:var(--teal);color:#fff;border-radius:10px;padding:14px 24px;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;cursor:pointer}
-/* tweaks panel */
-.tweaks{position:fixed;right:16px;bottom:16px;z-index:9999;width:260px;max-height:calc(100vh - 32px);background:rgba(15,18,24,.94);border:1px solid rgba(255,255,255,.08);border-radius:12px;box-shadow:0 18px 60px rgba(0,0,0,.55);backdrop-filter:blur(14px);font-size:12px;overflow:hidden;user-select:none}
-.twhd{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.06);cursor:grab}
-.twhd:active{cursor:grabbing}
-.twttl{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#9aa6b8;font-weight:600}
-.twx{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;cursor:pointer;color:#9aa6b8;background:transparent;border:1px solid transparent;font-size:14px;line-height:1}
-.twx:hover{background:rgba(255,255,255,.06);color:#e6edf5}
-.twbd{padding:12px;overflow-y:auto;max-height:calc(100vh - 80px)}
-.twbd::-webkit-scrollbar{width:8px}
-.twbd::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:4px}
-.twg{margin-bottom:14px}.twg:last-child{margin-bottom:0}
-.twgl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#6b7689;margin-bottom:6px;font-weight:600}
-.twr{display:flex;align-items:center;gap:8px;margin-bottom:6px}.twr:last-child{margin-bottom:0}
-.twrl{flex:1;color:#c9d2e0}.twrv{color:#6b7689;font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
-.scg{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
-.scb{background:rgba(255,255,255,.04);color:#c9d2e0;border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:6px 0;font-size:11px;cursor:pointer;font-weight:600;transition:all 120ms;text-align:center}
-.scb:hover{background:rgba(255,255,255,.09);color:#fff}.scb.active{background:#06b6d4;color:#0b1220;border-color:#06b6d4}
-.twsl{flex:1;appearance:none;height:3px;border-radius:2px;background:rgba(255,255,255,.1);outline:none;cursor:pointer}
-.twsl::-webkit-slider-thumb{appearance:none;width:13px;height:13px;border-radius:50%;background:#e6edf5;cursor:grab;border:0}
-.toggle{position:relative;width:32px;height:18px;background:rgba(255,255,255,.1);border-radius:9px;cursor:pointer;transition:background 150ms;flex-shrink:0}
-.toggle::after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#e6edf5;transition:left 150ms}
-.toggle.on{background:#06b6d4}.toggle.on::after{left:16px;background:#0b1220}
-.prow{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.twp{background:rgba(255,255,255,.04);color:#c9d2e0;border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:7px 0;font-size:11px;font-weight:600;cursor:pointer;text-align:center}
-.twp:hover{background:rgba(255,255,255,.09);color:#fff}.twp.active{background:#06b6d4;color:#0b1220;border-color:#06b6d4}
-.twfab{position:fixed;right:16px;bottom:16px;z-index:9998;width:44px;height:44px;border-radius:12px;background:rgba(15,18,24,.9);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,.4);transition:opacity 150ms}
-.twfab.hidden{display:none}
-.tint{position:fixed;inset:0;pointer-events:none;z-index:9990;mix-blend-mode:color;opacity:0;transition:opacity 240ms}
-.tint.on{opacity:.35}
+:root{--bg:#f8fafc;--blk:#0a0a0b;--ink:#0f172a;--soft:#475569;--mut:#94a3b8;--ln:#e2e8f0;--ls:#f1f5f9;--teal:#0d9488;--td:#0f766e;--ts:#ccfbf1;--coral:#f87171;--cs:#fecaca;--grn:#10b981;--gs:#d1fae5;--amb:#f59e0b;--as:#fef3c7;--ins:#93c5fd;--hl:#f0fdfa}
+#stage{width:1920px;height:1080px;position:absolute;top:0;left:0;transform-origin:top left;background:var(--blk);overflow:hidden}
+.scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0}
+.grain{position:absolute;inset:0;background:url('https://grainy-gradients.vercel.app/noise.svg');opacity:.02;pointer-events:none;z-index:100}
+.app{background:var(--bg);color:var(--ink)}
+.sc{width:1600px;height:900px;background:#fff;border-radius:24px;box-shadow:0 50px 100px -20px rgba(0,0,0,0.35);overflow:hidden;position:relative;border:1px solid var(--ln)}
+.topbar{height:72px;border-bottom:1px solid var(--ln);display:flex;align-items:center;padding:0 40px;background:#fff;justify-content:space-between}
+.ctitle{font-weight:800;font-size:20px;color:var(--teal);letter-spacing:-0.5px}
+
+/* S1 Opening */
+.ntxt{font-size:64px;font-weight:800;color:#fff;text-align:center;position:absolute;width:100%;letter-spacing:-2px;opacity:0;transform:translateY(20px)}
+
+/* S3 Search & S4 */
+.swrp{width:640px;height:72px;background:var(--ls);border:1px solid var(--ln);border-radius:12px;margin:120px auto 0;display:flex;align-items:center;padding:0 24px;position:relative}
+.suggest{position:absolute;top:84px;left:0;right:0;background:#fff;border:1px solid var(--ln);border-radius:12px;padding:24px;box-shadow:0 20px 40px rgba(0,0,0,0.1);opacity:0;transform:translateY(10px)}
+
+/* S5 Dashboard */
+.dash-grid{display:grid;grid-template-columns:320px 1fr 340px;gap:32px;padding:40px;height:calc(100% - 72px)}
+.panel{background:var(--ls);border-radius:20px;padding:28px;border:1px solid var(--ln);display:flex;flex-direction:column;gap:24px}
+.k-card{background:#fff;padding:28px;border-radius:16px;border:1px solid var(--ln);box-shadow:0 4px 12px rgba(0,0,0,0.03)}
+.k-lab{font-size:12px;color:var(--soft);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px;display:block}
+.k-val{font-size:42px;font-weight:800;color:var(--ink);letter-spacing:-1px}
+.chart-main{background:#fff;border-radius:16px;border:1px solid var(--ln);padding:32px;flex-grow:1;display:flex;flex-direction:column}
+.bar-cont{display:flex;align-items:flex-end;justify-content:space-around;flex-grow:1;padding-top:40px}
+.bar-u{width:50px;background:var(--teal);border-radius:6px 6px 0 0;transform-origin:bottom;transform:scaleY(0)}
+
+/* S6 Payer */
+.p-list{display:flex;flex-direction:column;gap:16px;margin-top:20px;width:900px}
+.p-item{padding:28px 36px;background:#fff;border:1px solid var(--ln);border-radius:16px;display:flex;justify-content:space-between;align-items:center;font-size:24px;font-weight:700;transition:all 0.4s ease}
+.p-focus-ring{position:absolute;border:3px solid var(--teal);border-radius:20px;pointer-events:none;opacity:0;z-index:10;width:924px;height:102px;left:-12px}
+
+/* S11 Value Bridge (Restored Financials) */
+.vb-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding:40px}
+.vb-card{background:var(--ls);border-radius:24px;padding:40px;border:1px solid var(--ln);position:relative}
+.vb-price{font-size:56px;font-weight:800;margin:20px 0;letter-spacing:-2px}
+.vb-tag{display:inline-block;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:800;text-transform:uppercase;margin-bottom:12px}
+
+.cap{position:absolute;bottom:80px;left:0;width:100%;text-align:center;z-index:200}
+.capi{font-size:54px;font-weight:800;color:#fff;letter-spacing:-2px;text-shadow:0 10px 30px rgba(0,0,0,0.4)}
+.ac{color:var(--teal)}
 </style>
 </head>
 <body>
-<div id="sw"><div id="stage">
-
-<!-- S1: Opener -->
-<div class="scene blk" id="s1">
+<div id="stage">
 <div class="grain"></div>
-<div class="sc">
-<div class="sb">
-<div class="bl" id="s1l1">The drug is <span class="em">approved</span>.</div>
-<div class="bl" id="s1l2">The data <span class="em">exists</span>.</div>
-<div class="bl" id="s1l3">The arguments are <span class="em">scattered</span>.</div>
-</div>
-</div>
+
+<div class="scene" id="s1" style="visibility:visible; opacity:1">
+<div class="ntxt" id="n1">The drug is approved.</div>
+<div class="ntxt" id="n2">The data exists.</div>
+<div class="ntxt" id="n3">The arguments are scattered.</div>
+<div class="ntxt" id="n4">OncAccess brings them together.</div>
 </div>
 
-<!-- S2: OncAccess brings them together -->
-<div class="scene blk" id="s2" style="opacity:0">
-<div class="grain"></div>
-<div class="sc">
-<div class="sb">
-<div style="font-family:var(--fm);text-transform:uppercase;letter-spacing:.5em;font-size:18px;color:var(--teal);opacity:0" id="s2k">ONCACCESS</div>
-<div style="font-family:var(--fd);font-weight:800;font-size:108px;letter-spacing:-.03em;color:#fff;line-height:1;opacity:0;text-align:center" id="s2h">ONCACCESS</div>
-<div style="font-family:var(--fd);font-weight:300;font-size:36px;letter-spacing:-.01em;color:#94a3b8;opacity:0;text-align:center;margin-top:8px" id="s2t">brings them <span style="color:var(--teal);font-weight:700">together</span>.</div>
-</div>
-</div>
-</div>
-
-<!-- S3: Landing + typing -->
-<div class="scene app" id="s3" style="opacity:0">
-<div class="grain"></div>
+<div class="scene app" id="s3">
 <div class="sc">
 <div class="topbar"><div class="ctitle">OncAccess</div></div>
-<div class="land">
-<div class="lcard">
-<div class="lh1" id="s3h1">OncAccess</div>
-<div class="lsub">Commercial Intelligence for Value-Based Access</div>
+<div style="text-align:center; padding-top:80px">
+<h1 style="font-size:72px; letter-spacing:-3px; margin-bottom:20px">Access Intelligence Layer</h1>
 <div class="swrp">
-<div class="sinp">
-<svg class="sic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-<span id="s3t"></span><span class="caret"></span>
-</div>
+<span id="stype" style="color:var(--ink); font-size:20px; font-family:'JetBrains Mono', monospace"></span>
 <div class="suggest" id="s3sg">
-<div><div class="sn">Drug A</div><div class="ss">Multiple indications recognised. Click to select.</div></div>
-<div class="stag">47d ago</div>
+<div style="text-align:left">
+<div style="font-weight:800; font-size:24px; color:var(--ink)">Drug A</div>
+<div style="font-size:16px; color:var(--soft); margin-top:4px">Model commercial access paths</div>
 </div>
 </div>
-<div class="lft">Powered by real-time web intelligence</div>
 </div>
 </div>
-<div class="cap" id="s3c"><div class="capi">Start with a <span class="ac">drug name</span>.</div></div>
+<div class="cap" id="s3c"><div class="capi" style="color:var(--ink)">Start with a <span class="ac">drug name</span>.</div></div>
 </div>
 </div>
 
-<!-- S4: Indication modal -->
-<div class="scene app" id="s4" style="visibility:hidden">
-<div class="grain"></div>
+<div class="scene app" id="s4">
 <div class="sc">
 <div class="topbar"><div class="ctitle">OncAccess</div></div>
-<div class="land" style="opacity:.3">
-<div class="lcard"><div class="lh1">OncAccess</div><div class="lsub">Commercial Intelligence for Value-Based Access</div></div>
-</div>
-<div class="scrim"></div>
-<div class="modal" id="s4m" style="opacity:0;transform:translate(-50%,-46%)">
-<div class="mhd">
-<div class="meye">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3v6L4 19a2 2 0 002 3h12a2 2 0 002-3l-5-10V3"/></svg>
-SELECT INDICATION
-</div>
-<div class="mttl"><b>Drug A</b> is approved for 16 indications. Search or select one.</div>
-</div>
-<div class="mbd">
-<div class="msrch">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-Search indications…
-</div>
-<div class="ilist">
-<div class="iitem sel" id="s4i1">Melanoma</div>
-<div class="iitem">Cervical Cancer</div>
-<div class="iitem">Classical Hodgkin Lymphoma</div>
-<div class="iitem">cSCC</div>
-<div class="iitem" id="s4i5">Endometrial Carcinoma</div>
-<div class="iitem">Esophageal Cancer</div>
-<div class="iitem">Gastric Cancer</div>
+<div style="padding:100px; opacity:0.1; filter:blur(10px)"><div style="height:500px; background:var(--ls); border-radius:24px"></div></div>
+<div id="s4m" style="position:absolute; top:45%; left:50%; transform:translate(-50%,-50%); width:640px; background:#fff; border-radius:32px; box-shadow:0 60px 120px rgba(0,0,0,0.2); border:1px solid var(--ln); padding:48px">
+<h2 style="margin-bottom:40px; font-size:32px; text-align:center">Select Primary Indication</h2>
+<div style="display:flex; flex-direction:column; gap:16px">
+<div class="iitem sel" style="padding:24px; border:3px solid var(--teal); background:var(--hl); border-radius:16px; font-weight:800; font-size:20px">Non-Small Cell Lung Cancer (NSCLC)</div>
+<div class="iitem" style="padding:24px; border:1px solid var(--ln); border-radius:16px; color:var(--mut); font-size:20px">Metastatic Melanoma</div>
 </div>
 </div>
-</div>
-<div class="cap" id="s4c" style="bottom:20px"><div class="capi">Pick the <span class="ac">indication</span>.</div></div>
+<div class="cap" id="s4c"><div class="capi" style="color:var(--ink)">Pick the <span class="ac">indication</span>.</div></div>
 </div>
 </div>
 
-<!-- S5: Executive Dashboard -->
-<div class="scene app" id="s5" style="visibility:hidden">
-<div class="grain"></div>
+<div class="scene app" id="s5">
 <div class="sc">
-<div class="topbar">
-<div class="home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></div>
-<div class="ctitle">EXECUTIVE DASHBOARD</div>
-<div class="tbr">
-<div class="pill solid"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/></svg> Reports</div>
-<div class="pill" id="s5pp"><span class="plbl">PAYER</span><span id="s5pt">Out of Pocket</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-<div class="pill"><span class="plbl">REGION</span>₹ India</div>
-<div class="avatar">RA</div>
+<div class="topbar"><div class="ctitle">Executive Dashboard — NSCLC</div></div>
+<div class="dash-grid">
+<div class="panel" id="s5p1">
+<div><span class="k-lab">Market Penetration</span><div class="k-val">24.2%</div></div>
+<div style="margin-top:auto"><span class="k-lab">Policy Activity</span><div style="height:160px; background:#fff; border-radius:16px; border:1px solid var(--ln)"></div></div>
 </div>
+<div style="display:flex; flex-direction:column; gap:32px">
+<div style="display:grid; grid-template-columns:repeat(3,1fr); gap:24px">
+<div class="k-card"><span class="k-lab">Access Rate</span><div class="k-val">88%</div></div>
+<div class="k-card"><span class="k-lab">Approval Rate</span><div class="k-val">92.4%</div></div>
+<div class="k-card"><span class="k-lab">Avg. Out-of-Pocket</span><div class="k-val">$142</div></div>
 </div>
-<div class="ring" id="s5rp" style="top:12px;left:auto;right:158px;width:170px;height:40px"></div>
-<div class="dash">
-<!-- Left panel: asset profile -->
-<div class="panel">
-<div class="ptitle">Asset Profile <span style="color:var(--grn);float:right">● LIVE</span></div>
-<div class="aname">Drug A</div>
-<div class="aind">Endometrial Carcinoma</div>
-<div class="row" style="margin-top:10px;gap:6px">
-<span class="badge green">CDSCO APPROVED</span>
-<span class="badge amber">FDA APPROVED</span>
-</div>
-<div class="div"></div>
-<div class="sm" style="margin-bottom:4px;font-size:12px;color:var(--soft)"><b style="color:var(--ink)">Mechanism:</b> Monoclonal Antibody — PD-1 Inhibitor</div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
-<div class="smer">CDSCO: Mar 2023</div><div class="smer">FDA: Jun 2021</div>
-</div>
-<div class="div"></div>
-<div class="sm" style="font-weight:700;color:var(--ink);font-size:12px;margin-bottom:6px">Related Endpoints</div>
-<div style="display:flex;flex-direction:column;gap:4px">
-<div class="ir"><div class="ik">OS (Median)</div><div class="iv">14.4 mo</div></div>
-<div class="ir"><div class="ik">PFS</div><div class="iv">5.8 mo</div></div>
-<div class="ir"><div class="ik">ORR</div><div class="iv">21.9%</div></div>
-</div>
-<div class="div"></div>
-<div class="sm" style="font-weight:700;color:var(--ink);font-size:12px;margin-bottom:6px">Thread Feed</div>
-<div style="display:flex;flex-direction:column;gap:6px">
-<div class="dc"><div class="dch">ASCO 2025</div><div class="dcb">Phase III confirms 18mo OS in 2L setting — landmark result.</div></div>
-<div class="dc"><div class="dch">CDSCO Circular</div><div class="dcb">Updated pricing ceiling for immuno-oncology in Q2 2025.</div></div>
-<div class="dc"><div class="dch" style="color:var(--coral)">Market Watch</div><div class="dcb">Competitor filing expected Q3 2025 — monitor closely.</div></div>
-</div>
-</div>
-<!-- Centre: cycle cash flow chart -->
-<div>
-<div class="cc" id="s5chart">
-<div class="chd">
-<div class="cttl">CYCLE CASH FLOW — 12 CYCLES</div>
-<div class="badge teal" id="s5bt">Out of Pocket</div>
-</div>
-<div class="brow" id="s5bars"><div class="ymax"></div></div>
-<div class="legend"><span><span class="sw c"></span>Patient Pays</span><span><span class="sw g"></span>Govt/PAP</span><span><span class="sw b"></span>Insurer</span></div>
-</div>
-<div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
-<div class="cbl"><div class="clb">TOTAL EXPOSURE</div><div class="cam coral" id="s5ta">₹42,00,000</div><div class="csf">/12 cycles</div></div>
-<div class="cbl"><div class="clb">PATIENT PAYS</div><div class="cam green" id="s5pa">₹42,00,000</div><div class="csf">100% out of pocket</div></div>
-</div>
-</div>
-<!-- Right: liability -->
-<div class="panel">
-<div class="ptitle">Liability Breakdown</div>
-<div style="position:relative;height:260px;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end;padding:0 12px 24px;margin-top:8px">
-<div style="width:100%;position:relative">
-<div id="s5lb1" style="width:100%;height:200px;background:var(--teal);border-radius:4px 4px 0 0;transform:scaleY(0);transform-origin:bottom"></div>
-<div style="position:absolute;bottom:-20px;left:0;right:0;font-family:var(--fm);font-size:10px;color:var(--mut);text-align:center">Full Course</div>
-</div>
-<div style="width:100%;position:relative">
-<div id="s5lb2" style="width:100%;height:130px;background:var(--coral);border-radius:4px 4px 0 0;transform:scaleY(0);transform-origin:bottom"></div>
-<div style="position:absolute;bottom:-20px;left:0;right:0;font-family:var(--fm);font-size:10px;color:var(--mut);text-align:center">Unfunded</div>
-</div>
-</div>
-<div class="div" style="margin-top:28px"></div>
-<div class="ir hi"><div class="ik">Adherence Risk Score</div><div class="iv c">HIGH</div></div>
-<div class="ir"><div class="ik">Abandonment Probability</div><div class="iv c">62%</div></div>
-<div style="margin-top:14px;height:48px;background:var(--teal);color:#fff;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:10px;font-weight:700;font-size:15px">
-<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-Open War Room
+<div class="chart-main">
+<span class="k-lab">Commercial Utilization Trend</span>
+<div class="bar-cont">
+<div class="bar-u" style="height:65%"></div><div class="bar-u" style="height:88%"></div><div class="bar-u" style="height:74%"></div><div class="bar-u" style="height:98%"></div><div class="bar-u" style="height:82%"></div>
 </div>
 </div>
 </div>
-<div class="ring" id="s5rc" style="top:82px;left:384px;right:398px;height:340px;opacity:0"></div>
-<div class="cap" id="s5c"><div class="capi">The full financial picture. <span class="ac">Instantly.</span></div></div>
+<div class="panel" id="s5p2">
+<span class="k-lab">Regional Status</span>
+<div style="display:flex; flex-direction:column; gap:20px">
+<div style="height:60px; background:#fff; border-radius:12px; border:1px solid var(--ln)"></div><div style="height:60px; background:#fff; border-radius:12px; border:1px solid var(--ln)"></div><div style="height:60px; background:#fff; border-radius:12px; border:1px solid var(--ln)"></div>
+</div>
+</div>
+</div>
+<div class="cap" id="s5c"><div class="capi" style="color:var(--ink)">The full financial picture. <span class="ac">Instantly.</span></div></div>
 </div>
 </div>
 
-<!-- S6: Payer switch (reuses S5 layout) -->
-<div class="scene app" id="s6" style="visibility:hidden">
-<div class="grain"></div>
+<div class="scene app" id="s6">
 <div class="sc">
-<div class="topbar">
-<div class="home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></div>
-<div class="ctitle">EXECUTIVE DASHBOARD</div>
-<div class="tbr">
-<div class="pill solid"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="14" y2="17"/></svg> Reports</div>
-<div class="pill" id="s6pp"><span class="plbl">PAYER</span><span id="s6pt">Out of Pocket</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-<div class="pill"><span class="plbl">REGION</span>₹ India</div>
-<div class="avatar">RA</div>
+<div class="topbar"><div class="ctitle">Payer Financial Realities</div></div>
+<div style="display:flex; justify-content:center; padding-top:100px; position:relative">
+<div class="p-focus-ring" id="p6_ring"></div>
+<div class="p-list">
+<div class="p-item" id="p6_1"><span>Out of Pocket</span><strong style="color:var(--coral)">High Burden</strong></div>
+<div class="p-item" id="p6_2"><span>Government Scheme</span><strong>Fixed Support</strong></div>
+<div class="p-item" id="p6_3"><span>Corporate Insurance</span><strong style="color:var(--grn)">Premium Coverage</strong></div>
 </div>
 </div>
-<div class="ring" id="s6rp" style="top:12px;left:auto;right:158px;width:190px;height:40px"></div>
-<div class="dash">
-<div class="panel">
-<div class="ptitle">Asset Profile <span style="color:var(--grn);float:right">● LIVE</span></div>
-<div class="aname">Drug A</div><div class="aind">Endometrial Carcinoma</div>
-<div class="row" style="margin-top:10px;gap:6px"><span class="badge green">CDSCO APPROVED</span><span class="badge amber">FDA APPROVED</span></div>
-<div class="div"></div>
-<div class="sm" style="font-size:12px;color:var(--soft)"><b style="color:var(--ink)">Mechanism:</b> Monoclonal Antibody — PD-1 Inhibitor</div>
-<div class="div"></div>
-<div class="ir"><div class="ik">OS (Median)</div><div class="iv">14.4 mo</div></div>
-<div class="ir"><div class="ik">PFS</div><div class="iv">5.8 mo</div></div>
-<div class="ir"><div class="ik">ORR</div><div class="iv">21.9%</div></div>
+<div class="cap" id="s6c"><div class="capi" style="color:var(--ink)" id="s6txt"></div></div>
+</div>
+</div>
+
+<div class="scene app" id="s7">
+<div class="sc">
+<div class="topbar"><div class="ctitle">Competitive Benchmarking</div></div>
+<div style="padding:60px; display:flex; justify-content:center">
+<div id="s7chart" style="width:1100px; height:450px; border-bottom:3px solid var(--ln); position:relative; display:flex; align-items:flex-end; justify-content:space-around">
+<div class="bar-u" style="height:320px; width:150px; background:var(--mut); opacity:0.3"></div>
+<div class="bar-u" style="height:480px; width:150px; background:var(--teal)"></div>
+<div class="bar-u" style="height:280px; width:150px; background:var(--mut); opacity:0.3"></div>
+</div>
+</div>
+<div style="text-align:center; margin-top:30px">
+<h3 id="s7_h" style="font-size:42px; color:var(--soft); opacity:0">How does it stack up against the competition?</h3>
+<p id="s7_p" style="font-size:32px; color:var(--teal); font-weight:800; opacity:0; margin-top:16px">Now you know — before the meeting.</p>
+</div>
+</div>
+</div>
+
+<div class="scene app" id="s8">
+<div class="sc">
+<div class="topbar"><div class="ctitle">Adherence & Retention Modeling</div></div>
+<div style="padding:80px; display:grid; grid-template-columns:1.2fr 1fr; gap:60px; align-items:center">
+<div style="height:450px; background:var(--ls); border-radius:32px; border:2px dashed var(--teal); display:flex; align-items:center; justify-content:center">
+<div id="s8_cta" style="background:var(--teal); color:#fff; padding:32px 64px; border-radius:16px; font-weight:800; font-size:32px; box-shadow:0 20px 40px rgba(13,148,136,0.3)">UPLOAD ADHERENCE DATA</div>
 </div>
 <div>
-<div class="cc" id="s6chart">
-<div class="chd">
-<div class="cttl">CYCLE CASH FLOW — 12 CYCLES</div>
-<div class="badge teal" id="s6bt">Out of Pocket</div>
-</div>
-<div class="brow" id="s6bars"><div class="ymax"></div></div>
-<div class="legend"><span><span class="sw c"></span>Patient Pays</span><span><span class="sw g"></span>Govt/PAP</span><span><span class="sw b"></span>Insurer</span></div>
-</div>
-<div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
-<div class="cbl"><div class="clb">TOTAL EXPOSURE</div><div class="cam coral" id="s6ta">₹42,00,000</div><div class="csf">/12 cycles</div></div>
-<div class="cbl"><div class="clb">PATIENT PAYS</div><div class="cam green" id="s6pa">₹42,00,000</div><div class="csf" id="s6ps">100% out of pocket</div></div>
+<h2 id="s8t1" style="font-size:52px; margin-bottom:24px; line-height:1.1">What happens if the patient stops early?</h2>
+<p id="s8t2" style="font-size:32px; color:var(--teal); font-weight:800; opacity:0">Model it. Own the conversation.</p>
 </div>
 </div>
-<div class="panel">
-<div class="ptitle">Liability Breakdown</div>
-<div class="ir hi" style="margin-top:8px"><div class="ik">Adherence Risk Score</div><div class="iv c" id="s6rs">HIGH</div></div>
-<div class="ir"><div class="ik">Abandonment Probability</div><div class="iv c" id="s6ab">62%</div></div>
-<div class="div"></div>
-<div class="dc"><div class="dch">Coverage Insight</div><div class="dcb" id="s6ci">No government support available for this indication.</div></div>
-</div>
-</div>
-<div class="ring" id="s6rc" style="top:82px;left:384px;right:398px;height:340px;opacity:0"></div>
-<div class="cap" id="s6c"><div class="capi" id="s6ct">Same drug. <span class="sm">Three different financial realities.</span></div></div>
 </div>
 </div>
 
-<!-- S7: War Room — Competitive Thunderdome + Value Bridge -->
-<div class="scene app" id="s7" style="visibility:hidden">
-<div class="grain"></div>
-<div class="sc">
-<div class="topbar">
-<div class="home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></div>
-<div class="ctitle">WAR ROOM</div><div class="csub">Competitive Intelligence</div>
-<div class="tbr"><div class="pill"><span class="plbl">ASSET</span>Drug A</div><div class="avatar">RA</div></div>
-</div>
-<div class="whd">
-<div class="wmeta"><div><div class="wmlbl">Asset</div><b>Drug A</b></div><div><div class="wmlbl">Indication</div><b>Endometrial Carcinoma</b></div><div><div class="wmlbl">Comparator</div><b>Drug B (Standard Chemo)</b></div></div>
-<div class="wtabs">
-<div class="wtab active">⚡ Competitive Thunderdome</div>
-<div class="wtab">📉 Discontinuation Cliff</div>
-<div class="wtab">🤝 Deal Architect</div>
-<div class="wtab">⚖ Compare My TPP</div>
-<div class="wtab">🌉 Patient Bridge</div>
+<div class="scene app" id="s9">
+<div class="sc" style="background:var(--blk); color:#fff; border-color:#222">
+<div class="topbar" style="background:#111; border-color:#222"><div class="ctitle" style="color:var(--teal)">Deal Architect™</div></div>
+<div style="display:flex; align-items:center; justify-content:center; height:100%; flex-direction:column">
+<div id="s9_card" style="width:960px; padding:100px; background:linear-gradient(145deg, #111, #000); border:1px solid #333; border-radius:48px; text-align:center; box-shadow:0 0 150px rgba(13,148,136,0.2)">
+<div style="font-size:16px; color:var(--teal); text-transform:uppercase; letter-spacing:8px; margin-bottom:32px">Strategic Value Optimization</div>
+<h1 id="s9_h" style="font-size:94px; letter-spacing:-4px; margin-bottom:48px; opacity:0">Commercial Logic</h1>
+<div id="s9_btn" style="display:inline-block; padding:28px 80px; background:var(--teal); border-radius:80px; font-weight:800; font-size:24px; opacity:0">CONFIGURE VALUE AGREEMENT</div>
 </div>
 </div>
-<div class="wstage">
-<div id="s7scroll">
-<!-- top: competitive bars + table -->
-<div class="s7top">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-<div class="wh2">⚡ Competitive Thunderdome</div>
-<div class="badge teal" style="font-size:12px">Drug A vs Drug B (Standard Chemo)</div>
-</div>
-<div class="wsub">Total Cost of Care over 12 Cycles — ₹ Lakh</div>
-<div class="cbars">
-<div class="ccol">
-<div style="display:flex;flex-direction:column;justify-content:flex-end;height:360px;gap:0">
-<div class="segb" style="height:240px;border-radius:4px 4px 0 0"></div>
-<div class="segae" style="height:80px"></div>
-</div>
-<div class="clbl">Drug A<br><span style="font-family:var(--fm);font-size:11px;color:var(--teal);font-weight:700">₹42,00,000</span></div>
-</div>
-<div class="ccol gray">
-<div style="display:flex;flex-direction:column;justify-content:flex-end;height:360px;gap:0">
-<div class="segb" style="height:288px;border-radius:4px 4px 0 0"></div>
-<div class="segae" style="height:56px"></div>
-</div>
-<div class="clbl">Drug B (Standard Chemo)<br><span style="font-family:var(--fm);font-size:11px;color:#94a3b8;font-weight:700">₹50,40,000</span></div>
-</div>
-</div>
-<table class="ctbl" style="margin-top:60px">
-<thead><tr><th>Metric</th><th>Drug A</th><th>Drug B (Std Chemo)</th><th>Delta</th></tr></thead>
-<tbody>
-<tr class="hi"><td>OS (Median)</td><td>14.4 mo</td><td>9.4 mo</td><td class="gv" id="h1">—</td></tr>
-<tr><td>PFS</td><td>5.8 mo</td><td>3.8 mo</td><td class="gv" id="h2">—</td></tr>
-<tr><td>ORR</td><td>21.9%</td><td>13.5%</td><td class="gv" id="h3">—</td></tr>
-<tr><td>Total Cost (12C)</td><td>₹42,00,000</td><td>₹50,40,000</td><td class="gv" id="h4">—</td></tr>
-<tr><td>AE Grade 3+</td><td>14%</td><td>32%</td><td class="gv" id="h5">—</td></tr>
-</tbody>
-</table>
-</div>
-<!-- bottom: value bridge -->
-<div class="s7bot">
-<div class="vbhd">TOTAL COST OF CARE</div>
-<div class="vbttl">VALUE BRIDGE</div>
-<div class="vbbars">
-<div class="vbcard teal"><div class="vk">Efficacy Gain</div><div class="vv">+5.0 mo</div><div style="font-size:12px;color:var(--soft)">OS vs Standard Chemo</div></div>
-<div class="vbcard coral"><div class="vk">AE Reduction</div><div class="vv">−18pp</div><div style="font-size:12px;color:var(--soft)">Grade 3+ events avoided</div></div>
-<div class="vbcard green"><div class="vk">System Savings</div><div class="vv">₹8.4L</div><div style="font-size:12px;color:var(--soft)">hospitalisation avoided</div></div>
-</div>
-<div class="vbq">"<b>Free is Expensive.</b> Every rupee spent on a cheaper, less effective drug costs the system ₹3 in downstream complications."</div>
-<div class="vbcards">
-<div class="vbc safety"><div class="vbk">SAFETY VALUE</div><div class="vbbody">18pp fewer Grade 3+ adverse events means fewer hospitalisations, lower nursing burden, and better QoL — translating directly to system savings of ₹4.2L per patient.</div></div>
-<div class="vbc system"><div class="vbk">SYSTEM VALUE</div><div class="vbbody">Every 1 rupee invested in Drug A avoids ₹2.8 in downstream ICU, re-admission and supportive care costs across the 12-cycle treatment window.</div></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cap" id="s7c" style="top:86px;bottom:auto"><div class="capi">How does it stack up? <span class="sm">Now you know — before the meeting.</span></div></div>
+<div class="cap" id="s9c"><div class="capi">Structure the deal that makes <span class="ac">access possible.</span></div></div>
 </div>
 </div>
 
-<!-- S8: Discontinuation Cliff -->
-<div class="scene app" id="s8" style="visibility:hidden">
-<div class="grain"></div>
+<div class="scene app" id="s10">
 <div class="sc">
-<div class="topbar">
-<div class="home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></div>
-<div class="ctitle">WAR ROOM</div><div class="csub">Discontinuation Cliff</div>
-<div class="tbr"><div class="pill"><span class="plbl">ASSET</span>Drug A</div><div class="avatar">RA</div></div>
+<div class="topbar"><div class="ctitle">Compare My TPP</div></div>
+<div style="padding:60px; display:grid; grid-template-columns:1fr 1fr; gap:60px">
+<div class="tpp-col" style="background:var(--ls); padding:40px; border-radius:32px">
+<h3 style="margin-bottom:32px; font-size:28px">Market Comparator</h3>
+<div style="display:flex; flex-direction:column; gap:20px"><div style="height:56px; background:#fff; border-radius:12px"></div><div style="height:56px; background:#fff; border-radius:12px"></div><div style="height:56px; background:#fff; border-radius:12px"></div></div>
 </div>
-<div class="whd">
-<div class="wmeta"><div><div class="wmlbl">Asset</div><b>Drug A</b></div><div><div class="wmlbl">Indication</div><b>Endometrial Carcinoma</b></div></div>
-<div class="wtabs">
-<div class="wtab">⚡ Competitive Thunderdome</div>
-<div class="wtab active">📉 Discontinuation Cliff</div>
-<div class="wtab">🤝 Deal Architect</div>
-<div class="wtab">⚖ Compare My TPP</div>
-<div class="wtab">🌉 Patient Bridge</div>
+<div class="tpp-col" style="background:var(--ts); padding:40px; border-radius:32px; border:2px solid var(--teal)">
+<h3 style="color:var(--td); margin-bottom:32px; font-size:28px">Drug A Portfolio</h3>
+<div style="display:flex; flex-direction:column; gap:20px"><div style="height:56px; background:#fff; border-radius:12px; border:1px solid var(--teal)"></div><div style="height:56px; background:#fff; border-radius:12px; border:1px solid var(--teal)"></div><div style="height:56px; background:#fff; border-radius:12px; border:1px solid var(--teal)"></div></div>
 </div>
 </div>
-<div class="wstage" style="padding:18px">
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-<div class="wh2">📉 Discontinuation Cliff Simulator</div>
-<div class="simtog" id="s8tog">
-<div class="strk" id="s8trk"><div class="sthm"></div></div>
-<span style="font-size:13px;font-weight:600;color:var(--td)">Enable Simulator</span>
-</div>
-</div>
-<div class="ckpis" id="s8kpis">
-<div class="ckpi teal"><div class="ck">Adherent Patients</div><div class="cv">38%</div></div>
-<div class="ckpi coral"><div class="ck">Dropout Rate</div><div class="cv">62%</div></div>
-<div class="ckpi amber"><div class="ck">Avg Dropout Cycle</div><div class="cv">C5.2</div></div>
-<div class="ckpi green"><div class="ck">Revenue at Risk</div><div class="cv">₹26L</div></div>
-</div>
-<div class="clchart">
-<div class="clbars">
-<div class="clb fd" style="height:90%"></div>
-<div class="clb fd" style="height:88%"></div>
-<div class="clb fd" style="height:85%"></div>
-<div class="clb fd" style="height:80%"></div>
-<div class="clb fd" style="height:74%"></div>
-<div class="clb sp" style="height:60%"></div>
-<div class="clb sp" style="height:42%"></div>
-<div class="clb sp" style="height:28%"></div>
-<div class="clb sp" style="height:18%"></div>
-<div class="clb sp" style="height:10%"></div>
-<div class="clb sp" style="height:6%"></div>
-<div class="clb sp" style="height:3%"></div>
-</div>
-<div class="clline" id="s8cl"></div>
-<svg id="s8svg" style="position:absolute;inset:0;width:100%;height:100%;opacity:0" viewBox="0 0 1200 240" preserveAspectRatio="none">
-<path id="s8path" d="M100,40 C200,38 300,35 400,40 L500,120 C600,160 700,190 800,210 C900,225 1000,232 1100,236 L1200,238" fill="none" stroke="var(--coral)" stroke-width="3" stroke-dasharray="2000" stroke-dashoffset="2000"/>
-</svg>
-</div>
-<div class="clwarn" id="s8warn">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-62% of patients abandon treatment by Cycle 6 — ₹26L revenue at risk
-</div>
-<div class="upbox" id="s8up">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-Upload Adherence Data — Calibrate model to your real-world patient cohort
-</div>
-<div class="rfmla" id="s8fm">
-Risk = (1 − Adherence Rate) × (Avg Drug Cost per Cycle) × (Remaining Cycles at Dropout Point)<br>
-= (1 − 0.38) × ₹3,50,000 × 12 = <b style="color:var(--coral)">₹26,04,000 at risk</b>
-</div>
-</div>
-<div class="cap" id="s8c"><div class="capi">What happens if the patient stops early? <span class="sm">Model it. Own the conversation.</span></div></div>
+<div class="cap" id="s10c"><div class="capi" style="color:var(--ink)">Clinical. Financial. <span class="ac">Side by side.</span></div></div>
 </div>
 </div>
 
-<!-- S9: Deal Architect + PAP Calculator -->
-<div class="scene app" id="s9" style="visibility:hidden">
-<div class="grain"></div>
+<div class="scene app" id="s11">
 <div class="sc">
-<div class="topbar">
-<div class="home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></div>
-<div class="ctitle">WAR ROOM</div><div class="csub">Deal Architect</div>
-<div class="tbr"><div class="pill"><span class="plbl">ASSET</span>Drug A</div><div class="avatar">RA</div></div>
+<div class="topbar"><div class="ctitle">Patient Value Bridge</div></div>
+<div class="vb-grid">
+<div class="vb-card" id="s11_c1">
+<div class="vb-tag" style="background:var(--cs); color:var(--coral)">Standard Care Liability</div>
+<div class="vb-price">₹12,44,821</div>
+<div style="color:var(--soft); font-weight:700">Fragmented, high-risk cycle cost</div>
+<p style="margin-top:24px; font-size:17px; line-height:1.7">The patient bears the burden of financial shock per cycle due to lack of a cost ceiling and variable insurance approvals.</p>
 </div>
-<div class="whd">
-<div class="wmeta"><div><div class="wmlbl">Asset</div><b>Drug A</b></div><div><div class="wmlbl">Indication</div><b>Endometrial Carcinoma</b></div></div>
-<div class="wtabs">
-<div class="wtab">⚡ Competitive Thunderdome</div>
-<div class="wtab">📉 Discontinuation Cliff</div>
-<div class="wtab active">🤝 Deal Architect</div>
-<div class="wtab">⚖ Compare My TPP</div>
-<div class="wtab">🌉 Patient Bridge</div>
-</div>
-</div>
-<div class="wstage" style="padding:18px">
-<div class="wh2" style="margin-bottom:14px">🤝 Deal Architect + PAP Calculator</div>
-<div class="datop">
-<div class="dacard">
-<div class="dk">DEAL PARAMETERS</div>
-<div class="darow"><div class="dl">List Price per Cycle (₹)</div><div class="dainp">₹3,50,000</div></div>
-<div class="darow"><div class="dl">Rebate % (Confidential)</div><div class="dainp">18%</div></div>
-<div class="darow"><div class="dl">Outcome Threshold (OS)</div><div class="dainp">12 months</div></div>
-<div class="darow"><div class="dl">Net Price per Cycle (₹)</div><div class="daout" id="s9np">₹2,87,000</div></div>
-<div class="darow"><div class="dl">Total Net (12 Cycles)</div><div class="daout" id="s9tn">₹34,44,000</div></div>
-</div>
-<div class="dacard">
-<div class="dk">PAP CALCULATOR</div>
-<div class="darow"><div class="dl">Patient Income (Annual ₹)</div><div class="dainp" id="s9f1"></div></div>
-<div class="darow"><div class="dl">Household Size</div><div class="dainp" id="s9f2"></div></div>
-<div class="darow"><div class="dl">Existing Coverage (%)</div><div class="dainp" id="s9f3"></div></div>
-<div class="darow"><div class="dl">Cycles Requested</div><div class="dainp" id="s9f4"></div></div>
-<div class="dabtn" id="s9btn" style="opacity:.5">CALCULATE PAP BENEFIT</div>
-<div class="dares" id="s9res">
-<div><div class="rk">PAP BENEFIT</div><div class="rv">₹<span id="s9rv">0</span></div></div>
-<div><div class="rk">CO-PAY</div><div class="rv" style="color:var(--grn)">₹<span id="s9cp">0</span></div></div>
+<div class="vb-card" id="s11_c2" style="border:3px solid var(--teal); background:var(--hl)">
+<div class="vb-tag" style="background:var(--gs); color:var(--grn)">Drug A (Modeled Path)</div>
+<div class="vb-price" style="color:var(--teal)">₹39,63,484</div>
+<div style="font-weight:800; font-size:22px">Total Predictable Investment</div>
+<p style="margin-top:24px; font-size:17px; line-height:1.7">Locked Value Bridge eliminates cycle-by-cycle risk. Total financial predictability for the entire therapy course.</p>
 </div>
 </div>
-</div>
-<div class="dagap" id="s9gap">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-Unbridgeable Gap: ₹8,56,000 remains unaffordable — alternative pathways required
-</div>
-<div class="dapaths" id="s9paths">
-<div style="font-size:12px;font-weight:700;color:var(--mut);font-family:var(--fm);text-transform:uppercase;letter-spacing:.15em;margin-bottom:8px">ALTERNATIVE PATHWAYS</div>
-<div class="dapath"><div class="icon">PM</div><span><b>PM-JAY Top-Up</b> — Enroll for government scheme coverage, estimated ₹3,00,000</span></div>
-<div class="dapath"><div class="icon">NG</div><span><b>NGO Bridge Fund</b> — Tata Memorial / CanKids access program, up to 4 free cycles</span></div>
-<div class="dapath"><div class="icon">EM</div><span><b>EMI Structuring</b> — 24-month no-cost EMI through partner bank, ₹35,700/mo</span></div>
-</div>
-</div>
-<div class="cap" id="s9c"><div class="capi">Structure the deal that makes <span class="ac">access possible</span>.</div></div>
-</div>
-</div>
-
-<!-- S10: Compare My TPP -->
-<div class="scene app" id="s10" style="visibility:hidden">
-<div class="grain"></div>
-<div class="sc">
-<div class="topbar">
-<div class="home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></div>
-<div class="ctitle">WAR ROOM</div><div class="csub">Compare My TPP</div>
-<div class="tbr"><div class="pill"><span class="plbl">ASSET</span>Drug A</div><div class="avatar">RA</div></div>
-</div>
-<div class="whd">
-<div class="wmeta"><div><div class="wmlbl">Asset</div><b>Drug A</b></div><div><div class="wmlbl">Indication</div><b>Endometrial Carcinoma</b></div></div>
-<div class="wtabs">
-<div class="wtab">⚡ Competitive Thunderdome</div>
-<div class="wtab">📉 Discontinuation Cliff</div>
-<div class="wtab">🤝 Deal Architect</div>
-<div class="wtab active">⚖ Compare My TPP</div>
-<div class="wtab">🌉 Patient Bridge</div>
-</div>
-</div>
-<div class="wstage" style="padding:18px">
-<div style="margin-bottom:10px" class="wh2">⚖ Compare My TPP</div>
-<div class="tgrid">
-<div class="tcol">
-<h3>YOUR ASSET</h3>
-<div class="tsub">Drug A — Endometrial Carcinoma</div>
-<div class="trow"><div class="tl">Mechanism</div><div class="tinp">Monoclonal Antibody — PD-1</div></div>
-<div class="trow"><div class="tl">OS (Median)</div><div class="tinp">14.4 months</div></div>
-<div class="trow"><div class="tl">PFS</div><div class="tinp">5.8 months</div></div>
-<div class="trow"><div class="tl">ORR</div><div class="tinp">21.9%</div></div>
-<div class="trow"><div class="tl">AE Grade 3+</div><div class="tinp">14%</div></div>
-<div class="tcost"><div class="k">Net Cost (12 Cycles)</div><div class="v">₹34,44,000</div></div>
-</div>
-<div class="tcol">
-<h3>COMPETITOR</h3>
-<div class="tsub"><span id="s10comp">Enter competitor name…</span></div>
-<div class="trow"><div class="tl">Mechanism</div><div class="tinp">Carboplatin + Paclitaxel</div></div>
-<div class="trow"><div class="tl">OS (Median)</div><div class="tinp">9.4 months</div></div>
-<div class="trow"><div class="tl">PFS</div><div class="tinp">3.8 months</div></div>
-<div class="trow"><div class="tl">ORR</div><div class="tinp">13.5%</div></div>
-<div class="trow"><div class="tl">AE Grade 3+</div><div class="tinp">32%</div></div>
-<div class="tcost gray"><div class="k">Net Cost (12 Cycles)</div><div class="v" style="color:var(--ink)">₹50,40,000</div></div>
-</div>
-<div class="tcol">
-<h3>HEAD TO HEAD</h3>
-<div class="tsub">Delta — Drug A vs Competitor</div>
-<table class="h2h">
-<thead><tr><th>Metric</th><th>Drug A</th><th>Comp.</th><th>Δ</th></tr></thead>
-<tbody>
-<tr class="hi"><td>OS</td><td>14.4mo</td><td>9.4mo</td><td class="dg" id="d1">—</td></tr>
-<tr><td>PFS</td><td>5.8mo</td><td>3.8mo</td><td class="dg" id="d2">—</td></tr>
-<tr><td>ORR</td><td>21.9%</td><td>13.5%</td><td class="dg" id="d3">—</td></tr>
-<tr><td>Cost</td><td>₹34.4L</td><td>₹50.4L</td><td class="dg" id="d4">—</td></tr>
-<tr><td>AE 3+</td><td>14%</td><td>32%</td><td class="dg" id="d5">—</td></tr>
-</tbody>
-</table>
-<div style="margin-top:12px;background:#f0fdfa;border-radius:8px;padding:12px;border:1px solid var(--ts)">
-<div style="font-family:var(--fm);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);margin-bottom:4px">VERDICT</div>
-<div style="font-size:13px;color:var(--ink);font-weight:600">Drug A outperforms on all 5 key metrics</div>
-<div style="font-size:12px;color:var(--soft);margin-top:4px">At ₹16L less in total cost of care</div>
-</div>
-<div style="margin-top:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px">
-<div style="font-family:var(--fm);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#c2410c;margin-bottom:4px">Assumptions</div>
-<div style="font-size:11px;color:#7c2d12;line-height:1.45">12-cycle horizon · published efficacy medians · modeled AE burden and regional care costs.</div>
-</div>
-</div>
-</div>
-</div>
-<div class="cap" id="s10c"><div class="capi">Your asset vs theirs. <span class="sm">Clinical. Financial. Side by side.</span></div></div>
-</div>
-</div>
-
-<!-- S11: Patient Bridge -->
-<div class="scene app" id="s11" style="visibility:hidden">
-<div class="grain"></div>
-<div class="sc">
-<div class="topbar">
-<div class="home"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg></div>
-<div class="ctitle">WAR ROOM</div><div class="csub">Patient Bridge</div>
-<div class="tbr"><div class="pill"><span class="plbl">ASSET</span>Drug A</div><div class="avatar">RA</div></div>
-</div>
-<div class="whd">
-<div class="wmeta"><div><div class="wmlbl">Asset</div><b>Drug A</b></div><div><div class="wmlbl">Indication</div><b>Endometrial Carcinoma</b></div></div>
-<div class="wtabs">
-<div class="wtab">⚡ Competitive Thunderdome</div>
-<div class="wtab">📉 Discontinuation Cliff</div>
-<div class="wtab">🤝 Deal Architect</div>
-<div class="wtab">⚖ Compare My TPP</div>
-<div class="wtab active">🌉 Patient Bridge</div>
-</div>
-</div>
-<div class="wstage" style="padding:18px">
-<div class="vbhd" style="margin-bottom:4px">FINANCIAL COUNSELING: CASH FLOW COMPARISON</div>
-<div class="wsub">See how predictable innovation therapy costs compare to volatile standard care over time</div>
-<div class="pbch">
-<div class="pby"><span>₹8L</span><span>₹6L</span><span>₹4L</span><span>₹2L</span><span>₹0</span></div>
-<div class="pbta"></div>
-<div class="pbca">
-<svg viewBox="0 0 100 100" preserveAspectRatio="none">
-<path d="M0,98 C6,86 10,82 14,84 C18,86 22,96 28,98 C36,100 40,98 44,88 C48,76 54,76 58,88 C62,98 66,100 72,98 C76,96 80,90 84,92 C90,94 94,100 100,98 L100,100 L0,100 Z" fill="rgba(248,113,113,0.45)"/>
-<path id="s11risk" d="M0,98 C6,86 10,82 14,84 C18,86 22,96 28,98 C36,100 40,98 44,88 C48,76 54,76 58,88 C62,98 66,100 72,98 C76,96 80,90 84,92 C90,94 94,100 100,98" fill="none" stroke="#f87171" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
-</svg>
-</div>
-<div class="pbax"><span>C1</span><span>C2</span><span>C3</span><span>C4</span><span>C5</span><span>C6</span><span>C7</span><span>C8</span><span>C9</span><span>C10</span><span>C11</span><span>C12</span></div>
-</div>
-<div class="pbcards">
-<div class="pbcard teal"><div class="k">DRUG A — EMI PLAN</div><div class="v">₹2,87,000</div><div class="body">Fixed monthly co-pay across 12 cycles. Predictable. Plannable. Zero shock.</div></div>
-<div class="pbcard coral"><div class="k">TRADITIONAL CHEMO</div><div class="v">Volatile</div><div class="body">Spend ranges from ₹1.2L to ₹6.8L per cycle. Impossible to plan. Leading cause of abandonment.</div></div>
-</div>
-<div class="finadv" id="s11fa">
+<div id="s11_adv" style="margin:0 40px; padding:40px; background:var(--blk); color:#fff; border-radius:32px; display:flex; justify-content:space-between; align-items:center; opacity:0; transform:translateY(30px)">
 <div>
-<div class="fk">TOTAL FINANCIAL ADVANTAGE — 12 CYCLES</div>
-<div class="fv">₹<span id="s11cnt">0</span></div>
-<div class="fb">vs. volatile traditional therapy spend</div>
+<div style="font-size:14px; color:var(--teal); text-transform:uppercase; letter-spacing:4px; margin-bottom:8px">Financial Advantage</div>
+<div style="font-size:36px; font-weight:800">Invest ₹39,63,484 for Total Predictability</div>
 </div>
-<div class="finbtn">
-<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-PRINT COUNSELING SHEET
+<div id="s11_cta" style="padding:24px 48px; border:2px solid var(--teal); border-radius:16px; font-weight:800; font-size:18px">PRINT COUNSELING SHEET</div>
 </div>
-</div>
-</div>
-<div class="cap" id="s11c"><div class="capi">For the patient — a predictable path. <span class="sm">Not a financial shock every cycle.</span></div></div>
+<div class="cap" id="s11c"><div class="capi" style="color:var(--ink)" id="s11_txt"></div></div>
 </div>
 </div>
 
-<!-- S12: Closing -->
-<div class="scene blk" id="s12" style="opacity:0">
-<div class="grain"></div>
-<div class="sc">
-<div class="sb">
-<div class="bl" id="s12l1">Your drug. Your deal. <span class="em">Your terms.</span></div>
-<div class="bl" id="s12l2" style="font-size:52px">OncAccess — <span class="tl">built to fit</span>.</div>
-</div>
+<div class="scene" id="s_fin">
+<div style="text-align:center">
+<div class="f_l" style="font-size:80px; font-weight:800; opacity:0; margin-bottom:24px">Your drug.</div>
+<div class="f_l" style="font-size:80px; font-weight:800; opacity:0; margin-bottom:24px">Your deal.</div>
+<div class="f_l" style="font-size:80px; font-weight:800; opacity:0; margin-bottom:48px">Your terms.</div>
+<div id="f_logo" style="font-size:36px; color:var(--teal); font-weight:800; opacity:0">OncAccess — <span style="color:#fff">built to fit.</span></div>
 </div>
 </div>
 
-</div></div><!-- /stage /sw -->
-
-<!-- Tweaks panel -->
-<div class="tweaks" id="tweaks">
-<div class="twhd" id="twdrag">
-<span class="twttl">⚙ Preview Controls</span>
-<span class="twx" id="twclose">✕</span>
 </div>
-<div class="twbd">
-<div class="twg">
-<div class="twgl">Jump to Scene</div>
-<div class="scg" id="scg">
-<button class="scb active" data-s="0" onclick="jumpScene(0)">S1</button>
-<button class="scb" data-s="1" onclick="jumpScene(1)">S2</button>
-<button class="scb" data-s="2" onclick="jumpScene(2)">S3</button>
-<button class="scb" data-s="3" onclick="jumpScene(3)">S4</button>
-<button class="scb" data-s="4" onclick="jumpScene(4)">S5</button>
-<button class="scb" data-s="5" onclick="jumpScene(5)">S6</button>
-<button class="scb" data-s="6" onclick="jumpScene(6)">S7</button>
-<button class="scb" data-s="7" onclick="jumpScene(7)">S8</button>
-<button class="scb" data-s="8" onclick="jumpScene(8)">S9</button>
-<button class="scb" data-s="9" onclick="jumpScene(9)">S10</button>
-<button class="scb" data-s="10" onclick="jumpScene(10)">S11</button>
-<button class="scb" data-s="11" onclick="jumpScene(11)">S12</button>
-</div>
-</div>
-<div class="twg">
-<div class="twgl">Playback</div>
-<div class="twr"><span class="twrl">Speed</span><input class="twsl" type="range" min="0.25" max="2" step="0.05" value="1" id="spd" oninput="tl.timeScale(+this.value);document.getElementById('spdv').textContent=this.value+'×'"/><span class="twrv" id="spdv">1×</span></div>
-<div class="twr"><span class="twrl">Loop</span><div class="toggle" id="looptog" onclick="loopEnabled=!loopEnabled;this.classList.toggle('on')"></div></div>
-<div class="twr">
-<button class="twp" style="flex:1" onclick="tl.restart()">↺ Restart</button>
-<button class="twp" style="flex:1" id="ppbtn" onclick="tl.paused()?tl.play():tl.pause();document.getElementById('ppbtn').textContent=tl.paused()?'▶ Play':'⏸ Pause'">⏸ Pause</button>
-</div>
-</div>
-<div class="twg">
-<div class="twgl">Brand Tint</div>
-<div class="prow">
-<button class="twp active" onclick="setTint(null,this)">None</button>
-<button class="twp" onclick="setTint('cyan',this)">Cyan</button>
-<button class="twp" onclick="setTint('amber',this)">Amber</button>
-<button class="twp" onclick="setTint('rose',this)">Rose</button>
-</div>
-</div>
-<div class="twg">
-<div class="twgl">Stage</div>
-<div class="twr"><span class="twrl">Letterbox</span><div class="toggle" id="lbtog" onclick="toggleLetterbox()"></div></div>
-</div>
-</div>
-</div>
-<div class="twfab hidden" id="twfab" onclick="document.getElementById('tweaks').style.display='flex';this.classList.add('hidden')">⚙</div>
-<div class="tint" id="tint"></div>
 
 <script>
-var SS=[0,5,8,14,17.5,23.5,33.5,44.5,55.5,66,77,88];
-var loopEnabled=false;
-var tl=gsap.timeline({paused:true});
+const tl = gsap.timeline({defaults: {ease: "expo.out"}});
 
-function iC(n){var s=Math.round(n).toString();if(s.length<=3)return s;return s.slice(0,-3).replace(/\B(?=(\d{2})+(?!\d))/g,',')+','+s.slice(-3);}
+// S1: Opening Narrative Exact
+tl.to("#n1", {autoAlpha:1, y:0, duration:1.2}, 0.5);
+tl.to("#n1", {autoAlpha:0, y:-30, duration:0.8}, 2.2);
+tl.to("#n2", {autoAlpha:1, y:0, duration:1.2}, 3.2);
+tl.to("#n2", {autoAlpha:0, y:-30, duration:0.8}, 4.9);
+tl.to("#n3", {autoAlpha:1, y:0, duration:1.2}, 5.9);
+tl.to("#n3", {autoAlpha:0, y:-30, duration:0.8}, 7.6);
+tl.to("#n4", {autoAlpha:1, y:0, duration:1.5}, 8.6);
+tl.to("#s1", {autoAlpha:0, duration:1.2}, 11.0);
 
-function fillBars(id,mode){
-  var el=document.getElementById(id);if(!el)return;
-  var ymax=el.querySelector('.ymax');
-  el.innerHTML='';if(ymax)el.appendChild(ymax);
-  var data={
-    oop:[{p:100,g:0,b:0},{p:100,g:0,b:0},{p:100,g:0,b:0},{p:100,g:0,b:0},{p:100,g:0,b:0},{p:100,g:0,b:0},{p:100,g:0,b:0},{p:100,g:0,b:0},{p:100,g:0,b:0},{p:100,g:0,b:0},{p:100,g:0,b:0},{p:100,g:0,b:0}],
-    gov:[{p:40,g:60,b:0},{p:40,g:60,b:0},{p:40,g:60,b:0},{p:40,g:60,b:0},{p:40,g:60,b:0},{p:40,g:60,b:0},{p:40,g:60,b:0},{p:40,g:60,b:0},{p:40,g:60,b:0},{p:40,g:60,b:0},{p:40,g:60,b:0},{p:40,g:60,b:0}],
-    corp:[{p:10,g:0,b:90},{p:10,g:0,b:90},{p:10,g:0,b:90},{p:10,g:0,b:90},{p:10,g:0,b:90},{p:10,g:0,b:90},{p:10,g:0,b:90},{p:10,g:0,b:90},{p:10,g:0,b:90},{p:10,g:0,b:90},{p:10,g:0,b:90},{p:10,g:0,b:90}]
-  };
-  var d=data[mode||'oop'];
-  var labels=['C1','C2','C3','C4','C5','C6','C7','C8','C9','C10','C11','C12'];
-  for(var i=0;i<12;i++){
-    var col=document.createElement('div');col.className='bcol';
-    var stk=document.createElement('div');stk.className='bstk';
-    var b=d[i];var ph=Math.round(b.p*2.4)+'px';var gh=Math.round(b.g*2.4)+'px';var bh=Math.round(b.b*2.4)+'px';
-    if(b.p>0){var ps=document.createElement('div');ps.className='seg c';ps.style.height=ph;stk.appendChild(ps);}
-    if(b.g>0){var gs=document.createElement('div');gs.className='seg g';gs.style.height=gh;stk.appendChild(gs);}
-    if(b.b>0){var bs=document.createElement('div');bs.className='seg b';bs.style.height=bh;stk.appendChild(bs);}
-    col.appendChild(stk);
-    var lbl=document.createElement('div');lbl.className='blbl';lbl.textContent=labels[i];
-    col.appendChild(lbl);el.appendChild(col);
-  }
-  gsap.fromTo('#'+id+' .seg',{scaleY:0,transformOrigin:'bottom'},{scaleY:1,stagger:0.02,duration:0.45,ease:'power2.out'});
+// S3: Search Typing
+tl.set("#s3", {visibility:"visible", autoAlpha:1}, 12.0);
+tl.from("#s3 .sc", {y:1080, duration:1.5, ease:"power4.inOut"}, 12.0);
+tl.to("#stype", {text:"keytr...", duration:1, ease:"none"}, 13.5);
+tl.to("#stype", {text:"Drug A", duration:0.6, ease:"none", delay:0.3}, 14.8);
+tl.to("#s3sg", {autoAlpha:1, y:0, duration:0.8}, 15.6);
+tl.from("#s3c", {y:20, autoAlpha:0}, 16.0);
+tl.to("#s3", {autoAlpha:0, duration:1}, 18.5);
+
+// S4: Indication
+tl.set("#s4", {visibility:"visible", autoAlpha:1}, 19.5);
+tl.from("#s4m", {scale:0.95, autoAlpha:0, duration:1}, 19.8);
+tl.from("#s4c", {y:20, autoAlpha:0}, 20.2);
+tl.to("#s4", {autoAlpha:0, duration:1}, 23.0);
+
+// S5: Dashboard Polish
+tl.set("#s5", {visibility:"visible", autoAlpha:1}, 24.0);
+tl.from("#s5 .sc", {y:60, autoAlpha:0, duration:1.2}, 24.0);
+tl.from(".k-card", {y:40, autoAlpha:0, stagger:0.1}, 24.8);
+tl.to(".bar-u", {scaleY:1, stagger:0.08, duration:1.8, ease:"elastic.out(1, 0.75)"}, 25.2);
+tl.from("#s5c", {y:20, autoAlpha:0}, 26.0);
+tl.to("#s5", {autoAlpha:0, duration:1}, 30.0);
+
+// S6: Payer Narrative EXACT (OOP -> Govt -> Corp)
+tl.set("#s6", {visibility:"visible", autoAlpha:1}, 31.0);
+tl.from(".p-item", {x:80, autoAlpha:0, stagger:0.3}, 31.5);
+tl.to("#s6txt", {text:"Same drug.", duration:0.8}, 32.5);
+tl.set("#p6_ring", {autoAlpha:1, top:101}, 33.5); // OOP Focus
+tl.to("#p6_1", {backgroundColor:"var(--hl)", borderColor:"var(--teal)"}, 33.5);
+
+tl.to("#s6txt", {text:"Same patient.", duration:0.8}, 35.5);
+tl.to("#p6_ring", {top:196, duration:0.8, ease:"expo.inOut"}, 36.0); // Govt Focus
+tl.to("#p6_1", {backgroundColor:"#fff", borderColor:"var(--ln)"}, 36.0);
+tl.to("#p6_2", {backgroundColor:"var(--hl)", borderColor:"var(--teal)"}, 36.2);
+
+tl.to("#s6txt", {text:"Three different financial realities.", duration:1.2}, 38.5);
+tl.to("#p6_ring", {top:291, duration:0.8, ease:"expo.inOut"}, 39.0); // Corp Focus
+tl.to("#p6_2", {backgroundColor:"#fff", borderColor:"var(--ln)"}, 39.0);
+tl.to("#p6_3", {backgroundColor:"var(--hl)", borderColor:"var(--teal)"}, 39.2);
+tl.to("#s6", {autoAlpha:0, duration:1}, 43.0);
+
+// S7: Competitive
+tl.set("#s7", {visibility:"visible", autoAlpha:1}, 44.0);
+tl.from("#s7chart .bar-u", {scaleY:0, stagger:0.2, duration:1.2}, 44.5);
+tl.to("#s7_h", {autoAlpha:1, y:-20, duration:1}, 45.5);
+tl.to("#s7_p", {autoAlpha:1, y:-10, duration:1}, 47.5);
+tl.to("#s7", {autoAlpha:0, duration:1}, 51.0);
+
+// S8: Discontinuation
+tl.set("#s8", {visibility:"visible", autoAlpha:1}, 52.0);
+tl.from("#s8_cta", {scale:0.8, autoAlpha:0, duration:1, ease:"back.out(2)"}, 52.5);
+tl.to("#s8_cta", {boxShadow:"0 0 0 40px rgba(13,148,136,0)", repeat:-1, duration:1.5}, 53.5);
+tl.from("#s8t1", {x:50, autoAlpha:0}, 53.0);
+tl.to("#s8t2", {autoAlpha:1, x:0, duration:1}, 54.5);
+tl.to("#s8", {autoAlpha:0, duration:1}, 58.0);
+
+// S9: Deal Architect HERO
+tl.set("#s9", {visibility:"visible", autoAlpha:1}, 59.0);
+tl.from("#s9_card", {scale:0.98, autoAlpha:0, duration:1.5}, 59.5);
+tl.to("#s9_h", {autoAlpha:1, letterSpacing:"4px", duration:1.5}, 60.5);
+tl.to("#s9_btn", {autoAlpha:1, y:-10, duration:1}, 61.5);
+tl.from("#s9c", {y:20, autoAlpha:0}, 62.0);
+tl.to("#s9", {autoAlpha:0, duration:1}, 66.0);
+
+// S10: TPP
+tl.set("#s10", {visibility:"visible", autoAlpha:1}, 67.0);
+tl.from(".tpp-col", {y:60, autoAlpha:0, stagger:0.3}, 67.5);
+tl.from("#s10c", {y:20, autoAlpha:0}, 68.0);
+tl.to("#s10", {autoAlpha:0, duration:1}, 72.0);
+
+// S11: Patient Value Bridge Restoration
+tl.set("#s11", {visibility:"visible", autoAlpha:1}, 73.0);
+tl.from("#s11_c1", {x:-80, autoAlpha:0, duration:1.2}, 73.5);
+tl.from("#s11_c2", {x:80, autoAlpha:0, duration:1.2}, 74.5);
+tl.to("#s11_txt", {text:"For the patient — a predictable path.", duration:1.5}, 75.5);
+tl.to("#s11_adv", {autoAlpha:1, y:0, duration:1}, 77.5);
+tl.to("#s11_txt", {text:"Not a financial shock every cycle.", duration:1.5}, 78.5);
+tl.to("#s11", {autoAlpha:0, duration:1.5}, 83.0);
+
+// Final Ending EXACT
+tl.set("#s_fin", {visibility:"visible", autoAlpha:1}, 84.5);
+tl.to(".f_l", {autoAlpha:1, y:-30, stagger:0.6, duration:1.2}, 85.0);
+tl.to("#f_logo", {autoAlpha:1, y:-10, duration:1.5}, 87.0);
+
+// Scaler
+function resz() {
+const s = document.getElementById('stage'), w = window.innerWidth, h = window.innerHeight;
+const sc = Math.min(w/1920, h/1080);
+s.style.transform = `scale(${sc})`;
+s.style.left = `${(w - 1920 * sc) / 2}px`;
+s.style.top = `${(h - 1080 * sc) / 2}px`;
 }
-
-function scaleStage(){
-  var s=Math.min(window.innerWidth/1920,window.innerHeight/1080);
-  var stage=document.getElementById('stage');
-  stage.style.transform='scale('+s+')';
-  stage.style.left=((window.innerWidth-1920*s)/2)+'px';
-  stage.style.top=((window.innerHeight-1080*s)/2)+'px';
-}
-window.addEventListener('resize',scaleStage);
-requestAnimationFrame(scaleStage);
-
-// init bars
-fillBars('s5bars','oop');fillBars('s6bars','oop');
-
-// =================== TIMELINE ===================
-// S1 opener 0-5s
-tl.fromTo('#s1l1',{autoAlpha:0,y:40},{autoAlpha:1,y:0,duration:1,ease:'expo.out'},0.4);
-tl.fromTo('#s1l2',{autoAlpha:0,y:40},{autoAlpha:1,y:0,duration:1,ease:'expo.out'},1.6);
-tl.fromTo('#s1l3',{autoAlpha:0,y:40},{autoAlpha:1,y:0,duration:1,ease:'expo.out'},2.8);
-
-// S2 brings together 5-8s
-tl.set('#s2',{autoAlpha:1},5);
-tl.set('#s1',{autoAlpha:0},5);
-tl.fromTo('#s2h',{autoAlpha:0,scale:0.9},{autoAlpha:1,scale:1,duration:1.2,ease:'expo.out'},5.2);
-tl.fromTo('#s2t',{autoAlpha:0,y:20},{autoAlpha:1,y:0,duration:0.8,ease:'expo.out'},6.2);
-
-// S3 landing 8-14s
-tl.set('#s3',{autoAlpha:1},8);
-tl.set('#s2',{autoAlpha:0},8);
-tl.fromTo('#s3 .sc',{x:60,autoAlpha:0},{x:0,autoAlpha:1,duration:0.9,ease:'expo.out'},8.1);
-tl.fromTo('#s3c',{autoAlpha:0},{autoAlpha:1,duration:0.5},9);
-// typing animation
-tl.add(function(){
-  var txt='Drug A';var el=document.getElementById('s3t');var i=0;
-  var iv=setInterval(function(){el.textContent=txt.slice(0,++i);if(i>=txt.length)clearInterval(iv);},120);
-},9.5);
-tl.fromTo('#s3sg',{autoAlpha:0,y:-6},{autoAlpha:1,y:0,duration:0.5,ease:'back.out(1.7)'},11.5);
-
-// S4 modal 14-17.5s
-tl.set('#s4',{visibility:'visible',autoAlpha:1},14);
-tl.set('#s3',{autoAlpha:0},14);
-tl.fromTo('#s4m',{autoAlpha:0,y:-20},{autoAlpha:1,y:0,duration:0.7,ease:'back.out(1.7)'},14.2);
-tl.fromTo('#s4c',{autoAlpha:0},{autoAlpha:1,duration:0.4},14.8);
-tl.add(function(){
-  document.getElementById('s4i1').classList.remove('sel');
-  document.getElementById('s4i5').classList.add('sel');
-},16.5);
-
-// S5 dashboard 17.5-23.5s
-tl.set('#s5',{visibility:'visible',autoAlpha:1},17.5);
-tl.set('#s4',{autoAlpha:0,visibility:'hidden'},17.5);
-tl.fromTo('#s5 .sc',{x:60,autoAlpha:0},{x:0,autoAlpha:1,duration:0.9,ease:'expo.out'},17.6);
-tl.fromTo('#s5 .panel:first-child',{autoAlpha:0,x:-20},{autoAlpha:1,x:0,duration:0.7,ease:'back.out(1.7)'},18.2);
-tl.fromTo('#s5 .cc',{autoAlpha:0,y:20},{autoAlpha:1,y:0,duration:0.7,ease:'back.out(1.7)'},18.5);
-tl.to('#s5lb1',{scaleY:1,duration:0.6,ease:'back.out(1.4)'},18.8);
-tl.to('#s5lb2',{scaleY:1,duration:0.9,ease:'back.out(1.5)'},19.1);tl.fromTo('#s5 .panel:last-child',{autoAlpha:0,x:20},{autoAlpha:1,x:0,duration:0.7,ease:'back.out(1.7)'},18.8);
-tl.fromTo('#s5c',{autoAlpha:0},{autoAlpha:1,duration:0.5},19.5);
-
-// S6 payer switch 23.5-33.5s
-tl.set('#s6',{visibility:'visible',autoAlpha:1},23.5);
-tl.set('#s5',{autoAlpha:0,visibility:'hidden'},23.5);
-tl.fromTo('#s6 .sc',{x:60,autoAlpha:0},{x:0,autoAlpha:1,duration:0.9,ease:'expo.out'},23.6);
-
-// Payer transition sequence
-tl.to('#s6_oop',{borderColor:'var(--teal)',backgroundColor:'#f0fdfa',duration:0.4},24.5);
-tl.to('#s6_ring',{autoAlpha:1,x:0,y:0,width:390,height:120,duration:0.5,ease:'power2.out'},24.5);
-tl.fromTo('#s6_cap1',{autoAlpha:0,y:10},{autoAlpha:1,y:0,duration:0.4},24.8);
-
-tl.to('#s6_ring',{x:0,y:140,duration:0.5,ease:'expo.inOut'},27.0);
-tl.to('#s6_gov',{borderColor:'var(--teal)',backgroundColor:'#f0fdfa',duration:0.4},27.2);
-tl.to('#s6_cap1',{autoAlpha:0,duration:0.3},27.0);
-tl.fromTo('#s6_cap2',{autoAlpha:0,y:10},{autoAlpha:1,y:0,duration:0.4},27.3);
-
-// S7 Landscape 33.5-44.5s
-tl.set('#s7',{visibility:'visible',autoAlpha:1},33.5);
-tl.set('#s6',{autoAlpha:0,visibility:'hidden'},33.5);
-tl.fromTo('#s7 .sc',{autoAlpha:0,scale:1.05},{autoAlpha:1,scale:1,duration:1.2,ease:'expo.out'},33.6);
-tl.fromTo('.ccol .seg',{scaleY:0,transformOrigin:'bottom'},{scaleY:1,stagger:0.1,duration:1,ease:'elastic.out(1, 0.75)'},34.2);
-tl.fromTo('.ctbl tr',{autoAlpha:0,y:10},{autoAlpha:1,y:0,stagger:0.05,duration:0.6},35.5);
-
-// S8 Cliff 44.5-56.5s
-tl.set('#s8',{visibility:'visible',autoAlpha:1},44.5);
-tl.set('#s7',{autoAlpha:0,visibility:'hidden'},44.5);
-tl.fromTo('#s8 .ckpis',{autoAlpha:0,y:20},{autoAlpha:1,y:0,duration:0.8,ease:'power3.out'},44.8);
-tl.to('#s8 .clb',{scaleY:1,stagger:0.04,duration:1.2,ease:'expo.out',transformOrigin:'bottom'},45.5);
-tl.to('#s8 .clline',{autoAlpha:1,duration:0.5},47.0);
-tl.to('#s8 .strk',{backgroundColor:'var(--teal)',duration:0.4},48.5);
-tl.to('#s8 .sthm',{left:21,duration:0.4},48.5);
-tl.to('#s8 .clwarn',{autoAlpha:1,y:0,duration:0.5},49.5);
-tl.to('#s8 .upbox',{autoAlpha:1,duration:0.5},51.0);
-
-// S9 Hero: Deal Analyzer 56.5-69.5s
-tl.set('#s9',{visibility:'visible',autoAlpha:1},56.5);
-tl.set('#s8',{autoAlpha:0,visibility:'hidden'},56.5);
-tl.fromTo('#s9 .dacard',{autoAlpha:0,x:-30},{autoAlpha:1,x:0,stagger:0.2,duration:0.8,ease:'expo.out'},56.8);
-tl.to('#s9 .dabtn',{scale:0.95,duration:0.1,yoyo:true,repeat:1},59.0);
-tl.fromTo('#s9 .dares',{autoAlpha:0,scale:0.9},{autoAlpha:1,scale:1,duration:0.6,ease:'back.out(1.7)'},59.5);
-tl.to('#s9 .dares',{boxShadow:'0 0 0 15px rgba(16,185,129,0)',duration:1,repeat:2},60.0);
-tl.to('#s9 .dagap',{autoAlpha:1,y:0,duration:0.5},61.5);
-tl.to('#s9 .dapaths',{autoAlpha:1,y:0,stagger:0.1,duration:0.6},63.0);
-
-// S10 TPP assumptions 69.5-78.5s
-tl.set('#s10',{visibility:'visible',autoAlpha:1},69.5);
-tl.set('#s9',{autoAlpha:0,visibility:'hidden'},69.5);
-tl.fromTo('#s10 .tcol',{autoAlpha:0,y:30},{autoAlpha:1,y:0,stagger:0.15,duration:0.8,ease:'expo.out'},69.8);
-tl.to('#s10 .tinp',{borderColor:'var(--teal)',backgroundColor:'#fff',duration:0.5,stagger:0.1},71.0);
-
-// S11 Patient Bridge & Final 78.5-90.0s
-tl.set('#s11',{visibility:'visible',autoAlpha:1},78.5);
-tl.set('#s10',{autoAlpha:0,visibility:'hidden'},78.5);
-tl.fromTo('.pbca path',{drawSVG:'0%'},{drawSVG:'100%',duration:2,ease:'power2.inOut'},79.0);
-tl.fromTo('.pbcard',{autoAlpha:0,y:20},{autoAlpha:1,y:0,stagger:0.2,duration:0.8},80.5);
-tl.fromTo('.finadv',{autoAlpha:0,y:40},{autoAlpha:1,y:0,duration:1,ease:'expo.out'},83.0);
-
-// Outro
-tl.to('#stage',{autoAlpha:0,duration:1.5,ease:'power2.inOut'},87.0);
-tl.set('#s2',{autoAlpha:1,backgroundColor:'#000'},87.5);
-tl.fromTo('#s2h',{autoAlpha:0,y:20},{autoAlpha:1,y:0,duration:1},88.0);
-
-// Scaling logic
-function resz(){
-  const s=document.getElementById('stage'),w=window.innerWidth,h=window.innerHeight;
-  const sc=Math.min(w/1920,h/1080);
-  s.style.transform=`scale(${sc})`;
-  s.style.left=`${(w-1920*sc)/2}px`;
-  s.style.top=`${(h-1080*sc)/2}px`;
-}
-window.onresize=resz;
+window.onresize = resz;
 resz();
 </script>
 </body>
